@@ -1,2 +1,2 @@
-# SDC
-A complete redesign of the current back end system that can withstand an outstanding increase in traffic to our retail web application
+# Atelier Products API
+Lightweight & scalable microservice serving a growing ecommerce web app
