@@ -1,0 +1,29 @@
+{
+  "name": "sdc",
+  "version": "1.0.0",
+  "description": "Atelier Questions & Answers API",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "jest",
+    "start:dev": "nodemon server/index.js",
+    "start:prod": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hr-rfp55-sdc-ezlo/questions-and-answers.git"
+  },
+  "author": "Huong Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hr-rfp55-sdc-ezlo/questions-and-answers/issues"
+  },
+  "homepage": "https://github.com/hr-rfp55-sdc-ezlo/questions-and-answers#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.2.4"
+  }
+}
