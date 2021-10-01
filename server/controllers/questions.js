@@ -3,19 +3,23 @@ var models = require('../models');
 module.exports = {
   get: (req, res) =>  {
     const productId = req.query.product_id;
-    models.questions.fetch(productId, (err, results) => {
-      if (err) {
-        res.status(500).send('Error getting data from db: ', err);
-      } else {
-        console.log('THIS IS RESULTS FROM QUESTIONS.FETCH: ', results);
-        res.status(200).send(results);
-      }
-    });
+    if (productId === undefined) {
+      res.status(404).send('Missing product_id');
+    } else {
+      models.questions.fetch(productId, (err, results) => {
+        if (err) {
+          res.status(500).send('Error getting data from db: ', err);
+        } else {
+          res.status(200).send(results);
+        }
+      });
+    }
   },
   post: (req, res) => {
-    models.questions.create(params, (err, results) => {
+    console.log('THIS IS REQ.BODY: ', req.body);
+    models.questions.create(req.body, (err) => {
       if (err) {
-        res.status(500).send('Error posting data to db: ', err);
+        res.status(500).send('Error posting question to db: ', err);
       } else {
         res.status(201).send('CREATED');
       }
@@ -24,7 +28,7 @@ module.exports = {
   put: (req, res) => {
     models.questions.update(params, (err, results) => {
       if (err) {
-        res.status(500).send('Error updating data in db: ', err);
+        res.status(500).send('Error updating question in db: ', err);
       } else {
         res.sendStatus(204);
       }
