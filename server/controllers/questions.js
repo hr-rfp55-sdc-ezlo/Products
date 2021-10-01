@@ -1,22 +1,33 @@
 var models = require('../models');
 
 module.exports = {
-  get: function (req, res) {
-    models.questions.fetch(function(err, results) {
-      if (err) { /* do something */ }
-      res.send(results);
+  get: (req, res) =>  {
+    const productId = req.query.product_id;
+    models.questions.fetch(productId, (err, results) => {
+      if (err) {
+        res.status(500).send('Error getting data from db: ', err);
+      } else {
+        console.log('THIS IS RESULTS FROM QUESTIONS.FETCH: ', results);
+        res.status(200).send(results);
+      }
     });
   },
-  post: function (req, res) {
-    models.questions.create(params, function(err, results) {
-      if (err) { /* do something */ }
-      res.sendStatus(201);
+  post: (req, res) => {
+    models.questions.create(params, (err, results) => {
+      if (err) {
+        res.status(500).send('Error posting data to db: ', err);
+      } else {
+        res.status(201).send('CREATED');
+      }
     });
   },
-  put: function (req, res) {
-    models.questions.update(params, function(err, results) {
-      if (err) { /* do something */ }
-      res.sendStatus(204);
+  put: (req, res) => {
+    models.questions.update(params, (err, results) => {
+      if (err) {
+        res.status(500).send('Error updating data in db: ', err);
+      } else {
+        res.sendStatus(204);
+      }
     });
   }
 };
