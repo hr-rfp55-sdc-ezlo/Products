@@ -1,7 +1,7 @@
 var models = require('../models');
 
 module.exports = {
-  get: (req, res) =>  {
+  get: (req, res) => {
     const productId = req.query.product_id;
     if (productId === undefined) {
       res.status(400).send('Missing product_id');
@@ -18,9 +18,9 @@ module.exports = {
 
   post: (req, res) => {
     const { body, name, email, product_id } = req.body;
-    const checkType = typeof body === 'string' && typeof name === 'string' && typeof email === 'string' && typeof product_id === 'number'
-    if (!checkType || body.length === 0 || name.length === 0 || email.length === 0){
-      res.status(400).send('Error with body params: missing param, incorrect type, empty string')
+    const checkType = typeof body === 'string' && typeof name === 'string' && typeof email === 'string' && typeof product_id === 'number';
+    if (!checkType || body.length === 0 || name.length === 0 || email.length === 0) {
+      res.status(400).send('Error with body params: missing param, incorrect type, empty string');
     } else {
       models.questions.create({ body, name, email, product_id }, (err) => {
         if (err) {
