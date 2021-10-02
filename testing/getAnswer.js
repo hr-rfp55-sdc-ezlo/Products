@@ -2,14 +2,14 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 export let options = {
-  vus: 100,
+  vus: 1000,
   duration: '60s',
 };
 
 export default function () {
-  // var questionId = ?; //top
-  // var questionId = ?; //bottom
-  // var questionId = ?; //mid
+  // var questionId = 36; //top
+  var questionId = 3518964; //bottom
+  // var questionId = 1740933; //mid
 
   var url = `http://localhost:3000/qa/questions/${questionId}/answers`;
   var params = {
@@ -22,4 +22,4 @@ export default function () {
   sleep(1);
 }
 
-//  'k6 run <pathToFile>' to execute the test;
+//  k6 run testing/getAnswer.js to execute the test;

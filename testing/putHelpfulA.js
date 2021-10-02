@@ -16,3 +16,5 @@ export default function () {
   http.put(url);
   sleep(1);
 }
+
+//  k6 run testing/putHelpfulA.js to execute the test;

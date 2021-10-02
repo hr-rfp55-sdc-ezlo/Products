@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 export let options = {
-  vus: 1500,
+  vus: 100,
   duration: '60s',
 };
 
@@ -20,3 +20,5 @@ export default function () {
   http.get(url, params);
   sleep(1);
 }
+
+//  k6 run testing/getQuestion.js to execute the test;
