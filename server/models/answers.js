@@ -24,11 +24,35 @@ module.exports = {
       }
       });
   },
-  create: (params, callback) => {
+
+  create: ({ body, name, email, photos, questionId }, callback) => {
     // create an answer for the given question_id
+    const answerInfo = [body, name, email, questionId];
+    let photoInfo = photos;
+    let startStr = '';
+    let endStr = '';
+    if (photos.length) {
+      startStr = `WITH a AS (`;
+      endStr = ` RETURNING id) INSERT INTO photos (url, answer_id) VALUES `
+      photos.forEach((photo, index) => {
+        if (index === photos.length - 1) {
+          endStr += `($${index + 5}, (SELECT id FROM a))`
+        } else {
+          endStr += `($${index + 5}, (SELECT id FROM a)), `;
+        }
+      });
+    }
     var query = {
-      text: ``,
-      values: [],
+      /*
+      WITH a AS
+        (INSERT INTO answers (body, answerer_name, answerer_email, question_id)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id)
+      INSERT INTO photos (url, answer_id)
+      VALUES ($5, SELECT id FROM a), ($6, SELECT id FROM a), ($7, SELECT id FROM a), ($8, SELECT id FROM a), ($9, SELECT id FROM a)
+      */
+      text: `${startStr}INSERT INTO answers (body, answerer_name, answerer_email, question_id) VALUES ($1, $2, $3, $4)${endStr}`,
+      values: answerInfo.concat(photoInfo),
     }
     db.query(query, (err) => {
       if (err) {
@@ -38,11 +62,18 @@ module.exports = {
       }
     });
   },
-  update: (params, callback) => {
+
+  update: (colName, answerId, callback) => {
     // update report of helpful for a given answer
+    let text = '';
+    if (colName === 'reported') {
+      text = `UPDATE answers SET reported = TRUE WHERE id = $1`;
+    } else {
+      text = `UPDATE answers SET helpfulness = helpfulness + 1 WHERE id = $1`;
+    }
     var query = {
-      text: ``,
-      values: [],
+      text,
+      values: [answerId],
     }
     db.query(query, (err) => {
       if (err) {

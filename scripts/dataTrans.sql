@@ -28,3 +28,8 @@ ALTER TABLE questions RENAME COLUMN helpful TO question_helpfulness;
 
 ALTER TABLE answers RENAME COLUMN date_written TO date;
 ALTER TABLE answers RENAME COLUMN helpful TO helpfulness;
+
+-- reset the id sequence
+SELECT setval(pg_get_serial_sequence('photos', 'id'), coalesce(max(id),0) + 1, false) FROM photos;
+SELECT setval(pg_get_serial_sequence('answers', 'id'), coalesce(max(id),0) + 1, false) FROM answers;
+SELECT setval(pg_get_serial_sequence('questions', 'question_id'), coalesce(max(question_id),0) + 1, false) FROM questions;

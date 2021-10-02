@@ -4,7 +4,7 @@ module.exports = {
   get: (req, res) => {
     const questionId = req.params.question_id;
     if (isNaN(Number(questionId))) {
-      res.status(404).send('Missing question_id');
+      res.status(400).send('Missing question_id');
     } else {
       models.answers.fetch(questionId, (err, results) => {
         if (err) {
@@ -16,21 +16,52 @@ module.exports = {
     }
   },
   post: (req, res) => {
-    models.answers.create(params, (err) => {
-      if (err) {
-        res.status(500).send('Error posting answer to db: ', err);
+    const questionId = req.params.question_id;
+    if (isNaN(Number(questionId))) {
+      res.status(400).send('Missing question_id');
+    } else {
+      const { body, name, email, photos } = req.body;
+      const checkType = typeof body === 'string' && typeof name === 'string' && typeof email === 'string' && Array.isArray(photos)
+      if (!checkType || body.length === 0 || name.length === 0 || email.length === 0){
+        res.status(400).send('Error with body params: missing param, incorrect type, empty string')
       } else {
-        res.sendStatus(201);
+        models.answers.create({ body, name, email, photos, questionId }, (err) => {
+          if (err) {
+            res.status(500).send('Error posting answer to db: ', err);
+          } else {
+            res.sendStatus(201);
+          }
+        });
       }
-    });
+    }
   },
-  put: function (req, res) {
-    models.answers.update(params, (err) => {
-      if (err) {
-        res.status(500).send('Error updating answer in db: ', err);
-      } else {
-        res.sendStatus(204);
-      }
-    });
+  putHelpful: (req, res) => {
+    const answerId = req.params.answer_id;
+    if (isNaN(Number(answerId))) {
+      res.status(400).send('Missing answer_id');
+    } else {
+      models.answers.update('helpfulness', answerId, (err) => {
+        if (err) {
+          res.status(500).send(`Error updating answer's helpfulness in db: `, err);
+        } else {
+          res.sendStatus(204);
+        }
+      });
+    }
+  },
+
+  putReport: (req, res) => {
+    const answerId = req.params.answer_id;
+    if (isNaN(Number(answerId))) {
+      res.status(400).send('Missing answer_id');
+    } else {
+      models.answers.update('reported', answerId, (err) => {
+        if (err) {
+          res.status(500).send('Error reporting answer in db: ', err);
+        } else {
+          res.sendStatus(204);
+        }
+      });
+    }
   }
 };

@@ -37,11 +37,12 @@ module.exports = {
       }
     });
   },
-  create: (params, callback) => {
+
+  create: ({ body, name, email, product_id }, callback) => {
     // create a question for the given product_id
     var query = {
-      text: ``,
-      values: [],
+      text: `INSERT INTO questions (question_body, asker_name, asker_email, product_id) VALUES ($1, $2, $3, $4)`,
+      values: [body, name, email, product_id],
     }
     db.query(query, (err) => {
       if (err) {
@@ -51,12 +52,20 @@ module.exports = {
       }
     });
   },
-  update: (params, callback) => {
+
+  update: (colName, questionId, callback) => {
     // update report or helpful for a given question_id
-    var query = {
-      text: ``,
-      values: [],
+    let text = '';
+    if (colName === 'reported') {
+      text = `UPDATE questions SET reported = TRUE WHERE question_id = $1`;
+    } else {
+      text = `UPDATE questions SET question_helpfulness = question_helpfulness + 1 WHERE question_id = $1`;
     }
+    var query = {
+      text,
+      values: [questionId],
+    }
+    console.log(text, questionId);
     db.query(query, (err) => {
       if (err) {
         callback(err);

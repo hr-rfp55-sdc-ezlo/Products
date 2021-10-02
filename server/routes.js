@@ -16,16 +16,16 @@ router.post('/questions', controller.questions.post);
 router.post('/questions/:question_id/answers', controller.answers.post);
 
 //Mark a Question as Helpful. Status 204 NO CONTENT
-router.put('/questions/:question_id/helpful', controller.questions.put);
+router.put('/questions/:question_id/helpful', controller.questions.putHelpful);
 
 //Report a Question. Status 204 NO CONTENT
-router.put('/questions/:question_id/report', controller.questions.put);
+router.put('/questions/:question_id/report', controller.questions.putReport);
 
 //Mark an Answer as Helpful. Status 204 NO CONTENT
-router.put('/answers/:answer_id/helpful', controller.answers.put);
+router.put('/answers/:answer_id/helpful', controller.answers.putHelpful);
 
 //Report an Answer. Status 204 NO CONTENT
-router.put('/answers/:answer_id/report', controller.answers.put);
+router.put('/answers/:answer_id/report', controller.answers.putReport);
 
 module.exports = router;
 
