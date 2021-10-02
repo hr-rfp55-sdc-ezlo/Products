@@ -7,7 +7,8 @@
     "test": "jest",
     "start:dev": "nodemon server/index.js",
     "start:prod": "node server/index.js",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "load-test": "k6 run testing/k6.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/hr-rfp55-sdc-ezlo/questions-and-answers#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "newrelic": "^8.4.0",
     "pg": "^8.7.1"
   },
   "devDependencies": {
