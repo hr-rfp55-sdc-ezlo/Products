@@ -3,4 +3,3 @@ node_modules
 *.pem
 .env
 newrelic_agent.log
-public/
