@@ -7,6 +7,9 @@ var router = require('./routes.js');
 const app = express();
 module.exports.app = app;
 
+// Serve static files
+app.use(express.static(`${__dirname}/../public`));
+
 // Logging and parsing
 app.use(express.json());
 
