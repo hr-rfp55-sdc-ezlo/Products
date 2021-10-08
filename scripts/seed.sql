@@ -69,9 +69,11 @@ GRANT ALL ON answers TO api;
 GRANT ALL ON photos TO api;
 
 -- create index & foreign keys
-CREATE INDEX idx_product_id ON questions (product_id);
-CREATE INDEX idx_question_id ON answers (question_id);
-CREATE INDEX idx_answer_id ON photos (answer_id);
+CREATE INDEX idx_product_id ON questions USING HASH (product_id);
+CREATE INDEX idx_question_id ON answers USING HASH (question_id);
+CREATE INDEX idx_answer_id ON photos USING HASH (answer_id);
+CREATE INDEX idx_reported_q_id ON questions (reported);
+CREATE INDEX idx_reported_a_id ON answers (reported);
 
 ALTER TABLE answers ADD CONSTRAINT fk_question_id FOREIGN KEY (question_id) REFERENCES questions (id);
 ALTER TABLE photos ADD CONSTRAINT fk_answer_id FOREIGN KEY (answer_id) REFERENCES answers (id);
